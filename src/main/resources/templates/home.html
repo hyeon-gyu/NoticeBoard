@@ -33,7 +33,11 @@
             <td th:text="${content.title}"></td>
             <td th:text="${content.writer}"></td>
             <td th:text="${content.updateDate}"></td>
-            <td> <button th:onclick="|location.href='@{/content/}'+${content.id}|" style="height:40px;">보기</button> </td>
+            <td>
+                <button th:onclick="|location.href='@{/content/}'+${content.id}|" style="height:40px;">
+                    보기
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
