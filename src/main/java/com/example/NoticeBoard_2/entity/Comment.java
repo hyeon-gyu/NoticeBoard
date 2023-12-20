@@ -1,9 +1,6 @@
 package com.example.NoticeBoard_2.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,12 +19,24 @@ public class Comment {
     private String comment_body; //댓글 본문 내용
 
     /**
-     * 유저와 다대일 관계 매핑
+     * user가 여러개의 댓글을 작성할 수 있으므로 다대일 관계 매핑
      *
-     * 댓글이 달린 게시판하고는... 다대일인가?
+     * 댓글이 달린 게시판하고는... 다대일 관계 매핑
+     *
      * */
     public void updateComment(String newBody){ //댓글 수정
         this.comment_body = newBody;
     }
+
+    //사용자 다대일
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    //게시글 다대일
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
+
 
 }
