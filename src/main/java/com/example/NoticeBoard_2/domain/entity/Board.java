@@ -1,6 +1,7 @@
-package com.example.NoticeBoard_2.entity;
+package com.example.NoticeBoard_2.domain.entity;
 
 
+import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +51,10 @@ public class Board {
      this.title = dto.getTitle();
      this.body = dto.getBody();
      }
-
      */
-
+    //추천 수
+    private Integer recommendCnt;
+    //댓글 수
+    private Integer commentCnt;
 }
+

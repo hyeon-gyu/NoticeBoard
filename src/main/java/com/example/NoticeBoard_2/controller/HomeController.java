@@ -1,23 +1,24 @@
 package com.example.NoticeBoard_2.controller;
 
+import com.example.NoticeBoard_2.common.ApiResponse;
+import com.example.NoticeBoard_2.domain.dto.UserLoginRequest;
+import com.example.NoticeBoard_2.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
 public class HomeController {
 
-    @GetMapping("/")
-    public String home(){
-        return "home";
+    private final UserService userService;
+
+    /** 로그인 절차 */
+    @PostMapping("/login")
+    public ApiResponse login(@RequestBody UserLoginRequest userLoginRequest){
+        return userService.login(userLoginRequest);
     }
 
-    @GetMapping("/signup")
-    public String signup(){
-        return "signup";
-    }
+
+
 }

@@ -31,7 +31,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-
+	// 세션기반 인증
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	// DB
 	runtimeOnly 'com.mysql:mysql-connector-j'
 }

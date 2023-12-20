@@ -1,7 +1,7 @@
-package com.example.NoticeBoard_2.dto;
+package com.example.NoticeBoard_2.domain.dto;
 
-import com.example.NoticeBoard_2.entity.User;
-import com.example.NoticeBoard_2.entity.UserRole;
+import com.example.NoticeBoard_2.domain.entity.User;
+import com.example.NoticeBoard_2.domain.enum_class.UserRole;
 import lombok.Data;
 
 import java.time.LocalDateTime;

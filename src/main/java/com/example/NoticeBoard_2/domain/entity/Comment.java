@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.entity;
+package com.example.NoticeBoard_2.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

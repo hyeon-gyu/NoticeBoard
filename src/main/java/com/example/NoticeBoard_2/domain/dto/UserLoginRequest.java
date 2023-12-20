@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.dto;
+package com.example.NoticeBoard_2.domain.dto;
 
 import lombok.Data;
 

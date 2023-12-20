@@ -1,6 +1,7 @@
-package com.example.NoticeBoard_2.entity;
+package com.example.NoticeBoard_2.domain.entity;
 
 
+import com.example.NoticeBoard_2.domain.enum_class.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
