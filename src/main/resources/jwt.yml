@@ -1,0 +1,4 @@
+header: "Authorization"
+prefix: "Bearer"
+secret: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwMzE2MDU3OSwiaWF0IjoxNzAzMTYwNTc5fQ.zW3SbYs8F_-Q15ectTJwg71Nc13-MwnzKemYi9SzL0k
+tokenExpirationTime: 5000 #단위 ms => 5분

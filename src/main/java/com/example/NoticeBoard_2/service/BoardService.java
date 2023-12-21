@@ -1,8 +1,7 @@
 package com.example.NoticeBoard_2.service;
 
-import com.example.NoticeBoard_2.common.ApiResponse;
+import com.example.NoticeBoard_2.domain.dto.ApiResponse;
 import com.example.NoticeBoard_2.domain.entity.Board;
-import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

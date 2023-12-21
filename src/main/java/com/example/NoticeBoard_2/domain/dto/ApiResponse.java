@@ -1,5 +1,7 @@
-package com.example.NoticeBoard_2.common;
+package com.example.NoticeBoard_2.domain.dto;
 
+
+import com.example.NoticeBoard_2.common.ApiStatus;
 
 public record ApiResponse(
         ApiStatus status,

@@ -1,10 +1,7 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.common.ApiResponse;
-import com.example.NoticeBoard_2.domain.dto.WriteBoardRequest;
-import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
+import com.example.NoticeBoard_2.domain.dto.ApiResponse;
 import com.example.NoticeBoard_2.service.BoardService;
-import com.example.NoticeBoard_2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

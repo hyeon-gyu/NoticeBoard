@@ -1,7 +1,7 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.common.ApiResponse;
-import com.example.NoticeBoard_2.domain.dto.UserLoginRequest;
+import com.example.NoticeBoard_2.domain.dto.ApiResponse;
+import com.example.NoticeBoard_2.domain.dto.request.UserLoginDto;
 import com.example.NoticeBoard_2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ public class HomeController {
 
     /** 로그인 절차 */
     @PostMapping("/login")
-    public ApiResponse login(@RequestBody UserLoginRequest userLoginRequest){
-        return userService.login(userLoginRequest);
+    public ApiResponse login(@RequestBody UserLoginDto userLoginDto){
+        return userService.login(userLoginDto);
     }
 
 
