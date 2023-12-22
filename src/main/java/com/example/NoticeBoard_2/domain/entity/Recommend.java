@@ -28,7 +28,7 @@ public class Recommend {
 
     // 추천과 사용자 관계 다대일
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
 }
 

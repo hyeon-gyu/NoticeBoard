@@ -36,7 +36,7 @@ public class Board {
     //유저
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Member member;
 
     //댓글(일대다)
     @OneToMany(mappedBy = "board", orphanRemoval = true)

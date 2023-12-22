@@ -1,9 +1,12 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.domain.dto.ApiResponse;
-import com.example.NoticeBoard_2.domain.dto.request.UserLoginDto;
-import com.example.NoticeBoard_2.service.UserService;
+import com.example.NoticeBoard_2.domain.dto.request.MemberLoginDto;
+import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
+import com.example.NoticeBoard_2.domain.dto.response.MemberTokenDto;
+import com.example.NoticeBoard_2.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,12 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class HomeController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     /** 로그인 절차 */
     @PostMapping("/login")
-    public ApiResponse login(@RequestBody UserLoginDto userLoginDto){
-        return userService.login(userLoginDto);
+    public ResponseEntity<MemberTokenDto> login(@RequestBody MemberLoginDto memberLoginDto){
+        MemberTokenDto memberTokenDto = memberService.login(memberLoginDto);
+        return ResponseEntity.status(HttpStatus.OK).header(memberTokenDto.getToken()).body(memberTokenDto);
     }
 
 

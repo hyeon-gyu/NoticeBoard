@@ -31,7 +31,7 @@ public class Comment {
     //사용자 다대일
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Member member;
 
     //게시글 다대일
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,7 +2,7 @@ package com.example.NoticeBoard_2.domain.dto;
 
 
 import com.example.NoticeBoard_2.domain.entity.Board;
-import com.example.NoticeBoard_2.domain.entity.User;
+import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import lombok.Data;
 
@@ -12,9 +12,9 @@ public class WriteBoardRequest {
     private String title;
     private String body;
 
-    public Board ToEntity(BoardCategory boardCategory, User user){
+    public Board ToEntity(BoardCategory boardCategory, Member member){
         return Board.builder()
-                .user(user)
+                .member(member)
                 .title(title)
                 .body(body)
                 .boardCategory(boardCategory)
