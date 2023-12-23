@@ -34,7 +34,6 @@ public class SecurityConfig {
     }
 
 
-    //여긴 나중에 접근 권한 관리 설정 하자..
     @Bean
     @Primary
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -42,7 +41,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request
                         -> request
-                        .anyRequest().permitAll())
+                        .requestMatchers("/user/checkNickname",
+                                "/user/checkId",
+                                "/user/signup",
+                                "/login").permitAll()
+                        .requestMatchers("/board/**").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(excep -> excep.authenticationEntryPoint(jwtAuthenticationEntryPoint))

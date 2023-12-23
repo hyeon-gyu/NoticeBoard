@@ -40,6 +40,9 @@ dependencies {
 
 	// DB
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	//swagger (springboot 3.0 이상에만 적용 가능한 lib <-> 2.0대에는 springdoc-openapi-ui 로 작성해야함!!
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 }
 
 tasks.named('test') {

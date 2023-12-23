@@ -1,5 +1,6 @@
 package com.example.NoticeBoard_2.domain.entity;
 
+import com.example.NoticeBoard_2.common.TimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
-public class Recommend {
+public class Recommend extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

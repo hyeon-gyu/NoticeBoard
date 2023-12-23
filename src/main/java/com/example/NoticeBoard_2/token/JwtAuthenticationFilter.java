@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Value;
 
 
@@ -36,18 +38,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService; //사용자 세부정보 검색하는 SpringSecurity 서비스
     private final JwtTokenUtil jwtTokenUtil; //사용자 이름 추출, 토큰 유효성 검사 진행하는 객체
 
-    @Value("${header}") private String HEADER_STRING;
-    @Value("${prefix}") private String TOKEN_PREFIX;
-
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Thread currentThread = Thread.currentThread();
         log.info("현재 실행 중인 스레드: " + currentThread.getName());
 
-        // get token
-        String header = request.getHeader(HEADER_STRING);
+        // 모든 헤더 이름과 값 출력
+//        Collections.list(request.getHeaderNames())
+//                .forEach(headerName -> log.info("Header: " + headerName + " Value: " + request.getHeader(headerName)));
+        String header = request.getHeader("authorization");
         String username = null;
         String authToken = null;
 
@@ -60,10 +60,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-
-        //'Bearer'로 시작하는 토큰 가져오기
-        if (header != null && header.startsWith(TOKEN_PREFIX)) {
-            authToken = header.replace(TOKEN_PREFIX," ");
+        log.info(header);
+        //'Bearer '로 시작하는 토큰 가져오기
+        if (header != null && header.startsWith("Bearer ")) {
+            authToken = header.replace("Bearer ","");
             try {
                 username = this.jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException ex) {     // 토큰 내 사용자 정보 오류

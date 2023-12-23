@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.domain.entity;
 
 
+import com.example.NoticeBoard_2.common.TimeEntity;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Getter
-public class Board {
+public class Board extends TimeEntity {
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOARD_ID")
     private Long id;
 
     private String title;
@@ -35,7 +40,7 @@ public class Board {
 
     //유저
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     //댓글(일대다)
@@ -56,5 +61,16 @@ public class Board {
     private Integer recommendCnt;
     //댓글 수
     private Integer commentCnt;
+
+    /** 양방향 연관관계 매핑 작업*/
+    public void setMappingMember(Member member){
+        this.member = member;
+        member.getBoards().add(this);
+    }
+
+    public void setBoardCategory(String category){ //대소문자 관계없이 category 선별 가능
+        this.boardCategory = BoardCategory.of(category);
+    }
+
 }
 

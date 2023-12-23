@@ -3,6 +3,7 @@ package com.example.NoticeBoard_2.controller;
 import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
 import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
 import com.example.NoticeBoard_2.service.MemberService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+//@SecurityRequirement(name = "bearerAuth")
 public class MemberController {
 
     private final MemberService memberService;

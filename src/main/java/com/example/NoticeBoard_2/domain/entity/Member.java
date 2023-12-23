@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.domain.entity;
 
 
+import com.example.NoticeBoard_2.common.TimeEntity;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,10 +18,11 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Member implements UserDetails {
+public class Member extends TimeEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MEMBER_ID")
     private Long id;
 
     private String loginId; // 로그인할 때 사용할 아이디 정보
@@ -29,9 +31,9 @@ public class Member implements UserDetails {
 
     private String nickname;
 
-    @CreatedDate
-    @Column(name = "signUp_date", updatable = false) //변경불가
-    private LocalDateTime signUpAt; // 회원가입 날짜
+//    @CreatedDate
+//    @Column(name = "SIGNUP_DATE", updatable = false) //변경불가
+//    private LocalDateTime signUpAt; // 회원가입 날짜
 
     private Integer recommendCnt; // 총 추천받은 수
 
@@ -45,7 +47,6 @@ public class Member implements UserDetails {
         this.password = password;
         this.nickname = nickname;
         this.memberRole = memberRole;
-        this.signUpAt = LocalDateTime.now();
         this.recommendCnt = 0;
     }
 
@@ -74,10 +75,10 @@ public class Member implements UserDetails {
 
     //orphanRemoval = true 특성 공부하기
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<Board> boards = new ArrayList<>();
+    private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
     //추천 (일대다)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recommend> recommend;

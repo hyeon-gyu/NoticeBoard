@@ -1,4 +1,2 @@
-header: "Authorization"
-prefix: "Bearer"
 secret: eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwMzI0NjcxMywiaWF0IjoxNzAzMjQ2NzEzfQ.cr-EUraEbDuaMr7QHeUGjV7JR3a4kfwB6i65GvFWVAE3777lTyZncTw9X-E9V1jobF1679GH2TO8mjO2szGPTw
 tokenExpirationTime: 18000
