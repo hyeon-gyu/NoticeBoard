@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.domain.dto.request;
 
 import com.example.NoticeBoard_2.domain.entity.Board;
+import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class BoardWriteDto {
         return Board.builder()
                 .title(boardWriteDto.title)
                 .body(boardWriteDto.content)
+                .commentCnt(0)
+                .recommendCnt(0)
                 .build();
     }
 

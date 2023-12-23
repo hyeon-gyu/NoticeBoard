@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
+@Builder
 @NoArgsConstructor
 public class MemberTokenDto {
 
     private String nickname;
     private String token;
 
-    @Builder
+
     public MemberTokenDto(String nickname, String token) {
         this.nickname = nickname;
         this.token = token;

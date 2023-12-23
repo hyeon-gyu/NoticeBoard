@@ -44,7 +44,9 @@ public class SecurityConfig {
                         .requestMatchers("/user/checkNickname",
                                 "/user/checkId",
                                 "/user/signup",
-                                "/login").permitAll()
+                                "/login",
+                                "/board/list"
+                                ).permitAll()
                         .requestMatchers("/board/**").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -52,9 +52,9 @@ public class Member extends TimeEntity implements UserDetails {
 
 
 
-    public void editInfo(String newPassword, String newUsername){ // 개인정보 수정 (비밀번호, 닉네임)
+    public void editInfo(String newPassword, String newNickname){ // 개인정보 수정 (비밀번호, 닉네임)
         this.password = newPassword;
-        this.nickname = newUsername;
+        this.nickname = newNickname;
     }
 
     /**

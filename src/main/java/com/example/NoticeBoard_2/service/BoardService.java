@@ -3,15 +3,20 @@ package com.example.NoticeBoard_2.service;
 
 import com.example.NoticeBoard_2.common.ResourceNotFoundException;
 import com.example.NoticeBoard_2.domain.dto.request.BoardWriteDto;
+import com.example.NoticeBoard_2.domain.dto.response.BoardResponseListDto;
 import com.example.NoticeBoard_2.domain.dto.response.BoardResponseWriteDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Member;
+import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.BoardRepository;
 import com.example.NoticeBoard_2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +36,10 @@ public class BoardService {
         board.setMappingMember(writeMember); // 양방향 연관관계 적용
         Board saveBoard = boardRepository.save(board);
         return BoardResponseWriteDto.fromEntity(saveBoard, writeMember.getNickname());
+    }
+
+    public List<BoardResponseListDto> boardList(BoardCategory category){
+        List<Board> boards = boardRepository.findByBoardCategory(category);
+        return boards.stream().map(BoardResponseListDto::fromEntity).toList();
     }
 }
