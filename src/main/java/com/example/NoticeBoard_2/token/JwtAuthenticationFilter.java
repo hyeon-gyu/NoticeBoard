@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     /** HTTP 요청을 가로채고 유효한 JWT를 포함하고 있는지 확인하는 역할
      * 유효한 JWT 발견되면 해당 토큰과 관련된 사용자 인증 진행
+     * 사실상 여기가 토큰 확인하는 시작시점
      */
 
     private final UserDetailsService userDetailsService; //사용자 세부정보 검색하는 SpringSecurity 서비스
@@ -42,12 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Thread currentThread = Thread.currentThread();
-        log.info("현재 실행 중인 스레드: " + currentThread.getName());
+        //log.info("현재 실행 중인 스레드: " + currentThread.getName());
 
         // 모든 헤더 이름과 값 출력
 //        Collections.list(request.getHeaderNames())
 //                .forEach(headerName -> log.info("Header: " + headerName + " Value: " + request.getHeader(headerName)));
-        String header = request.getHeader("authorization");
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         String username = null;
         String authToken = null;
 
@@ -61,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         log.info(header);
-        //'Bearer '로 시작하는 토큰 가져오기
+        //'Bearer '로 시작하는 토큰 정보 꺼내기
         if (header != null && header.startsWith("Bearer ")) {
             authToken = header.replace("Bearer ","");
             try {

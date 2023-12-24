@@ -11,7 +11,6 @@ public enum BoardCategory {
         else return null;
     }
 
-
 }
 
 /*  GREETING : 가입인사

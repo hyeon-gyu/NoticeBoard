@@ -18,9 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @RequiredArgsConstructor
-@EnableWebSecurity
+@EnableWebSecurity //인증인가 적용 시작
 @Configuration
-
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -47,11 +46,11 @@ public class SecurityConfig {
                                 "/login",
                                 "/board/list"
                                 ).permitAll()
-                        .requestMatchers("/board/**").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
+                        .requestMatchers("/board/**", "/user/withdraw").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(excep -> excep.authenticationEntryPoint(jwtAuthenticationEntryPoint))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //username,pwd로 인증하기전에 jwtfilter가 먼저 진행
                 .build();
 
 

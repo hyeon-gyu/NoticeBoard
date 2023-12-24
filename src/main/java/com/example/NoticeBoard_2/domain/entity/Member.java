@@ -25,16 +25,17 @@ public class Member extends TimeEntity implements UserDetails {
     @Column(name = "MEMBER_ID")
     private Long id;
 
+    @Column(nullable = false)
     private String loginId; // 로그인할 때 사용할 아이디 정보
-
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private String nickname;
 
 //    @CreatedDate
 //    @Column(name = "SIGNUP_DATE", updatable = false) //변경불가
 //    private LocalDateTime signUpAt; // 회원가입 날짜
-
+    @Column(nullable = false)
     private Integer recommendCnt; // 총 추천받은 수
 
     @Enumerated(EnumType.STRING) // 유저 등급 지정, 테이블에 string으로 값 들어감
@@ -77,10 +78,10 @@ public class Member extends TimeEntity implements UserDetails {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //회원정보 가져오기에서 작성한 댓글 전부 확인하기
     private List<Comment> comments = new ArrayList<>();
     //추천 (일대다)
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //회원정보 가져오기에서 추천 누른 게시글 전부 확인하기
     private List<Recommend> recommend;
 
     public void rankUp(MemberRole memberRole){

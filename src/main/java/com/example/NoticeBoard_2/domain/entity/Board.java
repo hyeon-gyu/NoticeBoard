@@ -8,16 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
-public class Board extends TimeEntity {
 
+public class Board extends TimeEntity {
 
 
     @Id
@@ -25,30 +25,43 @@ public class Board extends TimeEntity {
     @Column(name = "BOARD_ID")
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
     private String body;
 
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory; // 가입인사 게시판, 자유게시판, 관리자용 게시판(공지사항)
 
-    /**
-     * 한명의 user가 여러 글을 작성할 수 있으므로 board 클래스 관점에선 다대일로 매핑해야함
-     * 하나의 게시글에 여러 댓글이 달릴 수 있으므로 일대다 관계 매핑
-     * 하나의 게시글에 여러개의 추천이 달릴 수도 있으므로 일대다 관계 매핑
-     *
-     * */
+    //추천 수
+    private Integer recommendCnt;
+    //댓글 수
+    private Integer commentCnt;
+
+    @Builder
+    public Board(String title, String body, BoardCategory boardCategory, Member member, Integer recommendCnt, Integer commentCnt){
+        this.title = title;
+        this.body = body;
+        this.boardCategory = boardCategory;
+        this.member = member;
+        this.recommendCnt = 0;
+        this.commentCnt = 0;
+    }
 
     //유저
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     //댓글(일대다)
-    @OneToMany(mappedBy = "board", orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> commentList;
 
+    //orphanRemoval = true VS cascade = CascadeType.REMOVE 비교 공부하기
+
     //추천(일대다)
-    @OneToMany(mappedBy = "board", orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recommend> recommendList;
 
     /**
@@ -57,10 +70,6 @@ public class Board extends TimeEntity {
      this.body = dto.getBody();
      }
      */
-    //추천 수
-    private Integer recommendCnt;
-    //댓글 수
-    private Integer commentCnt;
 
     /** 양방향 연관관계 매핑 작업*/
     public void setMappingMember(Member member){

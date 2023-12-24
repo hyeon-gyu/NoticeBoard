@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.service;
 
 import com.example.NoticeBoard_2.common.MemberException;
+import com.example.NoticeBoard_2.common.ResourceNotFoundException;
 import com.example.NoticeBoard_2.domain.dto.request.MemberLoginDto;
 import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
 import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
@@ -21,6 +22,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -97,5 +100,14 @@ public class MemberService {
         if (!encoder.matches(rawPassword, encodedPassword)) {
             throw new MemberException("패스워드 불일치", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    // 회원탈퇴
+    public MemberResponseDto withdraw(Member member){
+        Member findMember = memberRepository.findByLoginId(member.getUsername()).orElseThrow(
+                () -> new ResourceNotFoundException("Member", "Member LoginId", member.getLoginId()));
+        // 삭제 순서 : 추천 -> 댓글 -> 게시글 -> 멤버
+        memberRepository.delete(findMember);
+        return MemberResponseDto.fromEntity(findMember);
     }
 }

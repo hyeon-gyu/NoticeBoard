@@ -36,7 +36,6 @@ public class BoardController {
     }
 
     /** 게시판 카테고리별로 불러오기 */
-    // 리턴해야할 값은 제목,글쓴이
     @GetMapping("/list/{category}")
     public ResponseEntity<List<BoardResponseListDto>> boardList(@PathVariable("category") String category){
         BoardCategory boardCategory = BoardCategory.of(category);
