@@ -13,8 +13,6 @@ import com.example.NoticeBoard_2.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -22,12 +20,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+
 @Transactional
 class BoardApplicationTests {
 
@@ -42,9 +39,8 @@ class BoardApplicationTests {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	private static final Logger logger = LoggerFactory.getLogger(BoardApplicationTests.class);
 
-	@Test //회원 탈퇴
+	@Test
 	public void testMemberWithdraw(){
 		Member member = new Member("1234","1234","gyugyu1", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
 		em.persist(member);
@@ -66,20 +62,4 @@ class BoardApplicationTests {
 		Assertions.assertTrue(memberBoards.isEmpty());
 	}
 
-	@Test
-	public void testTotalMemberCount(){
-		Member member = new Member("1234","1234","gyugyu1", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
-		Member member1 = new Member("aaa","1234","aa", MemberRole.REGULAR, LocalDateTime.now(),0);
-		Member member2 = new Member("bbb","1234","bb", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
-		Member member3 = new Member("ccc","1234","ccc", MemberRole.VIP, LocalDateTime.now(),0);
-		Member member4 = new Member("ddd","1234","dd", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
-		Member member5 = new Member("eee","1234","eeeee", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
-		em.persist(member);em.persist(member1);	em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
-		em.flush(); em.clear();
-		List<Object[]> memberCntLists = memberRepository.countMemberByMemberRole();
-		for (Object[] index : memberCntLists){
-			logger.info(String.valueOf((MemberRole)index[0]));
-			logger.info(String.valueOf((Long)index[1]));
-		}
-	}
 }

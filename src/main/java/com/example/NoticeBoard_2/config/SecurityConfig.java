@@ -44,8 +44,7 @@ public class SecurityConfig {
                                 "/user/checkId",
                                 "/user/signup",
                                 "/login",
-                                "/board/list",
-                                "/user/count"
+                                "/board/list"
                                 ).permitAll()
                         .requestMatchers("/board/**", "/user/withdraw").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 

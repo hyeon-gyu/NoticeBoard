@@ -4,11 +4,9 @@ import com.example.NoticeBoard_2.common.MemberException;
 import com.example.NoticeBoard_2.common.ResourceNotFoundException;
 import com.example.NoticeBoard_2.domain.dto.request.MemberLoginDto;
 import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseCntDto;
 import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
 import com.example.NoticeBoard_2.domain.dto.response.MemberTokenDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
-import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.MemberRepository;
 import com.example.NoticeBoard_2.token.CustomUserDetailsService;
 import com.example.NoticeBoard_2.token.JwtTokenUtil;
@@ -20,11 +18,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -110,22 +109,5 @@ public class MemberService {
         // 삭제 순서 : 추천 -> 댓글 -> 게시글 -> 멤버
         memberRepository.delete(findMember);
         return MemberResponseDto.fromEntity(findMember);
-    }
-
-    // 총 회원 수 조회
-    public List<MemberResponseCntDto> countMember(){
-        List<Object[]> memberCntLists = memberRepository.countMemberByMemberRole();
-        Map<MemberRole, Long> countMap = new EnumMap<>(MemberRole.class);
-
-        for (MemberRole role: MemberRole.values()){
-            if(!role.equals(MemberRole.ADMIN)){
-                countMap.put(role,0L);
-            }
-        }
-
-        for (Object[] index : memberCntLists) {
-            countMap.put((MemberRole)index[0], (Long)index[1]);
-        }
-        return MemberResponseCntDto.fromEntity(countMap);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.NoticeBoard_2.controller;
 
 import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseCntDto;
 import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.service.MemberService;
@@ -12,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,14 +43,6 @@ public class MemberController {
     public ResponseEntity<MemberResponseDto> withdraw(@AuthenticationPrincipal Member member){
         MemberResponseDto withdrawMember = memberService.withdraw(member);
         return ResponseEntity.status(HttpStatus.OK).body(withdrawMember);
-    }
-
-    //총 회원 수 조회 (등급 별 분류하여 조회) : 등급 별 인원 수 카운트 하여 category, countNum만 넘기면 될듯
-    @GetMapping("/count")
-    public ResponseEntity<List<MemberResponseCntDto>> countMember(){
-        List<MemberResponseCntDto> memberResponseCntDto = memberService.countMember();
-        return ResponseEntity.status(HttpStatus.OK).body(memberResponseCntDto);
-
     }
 
 
