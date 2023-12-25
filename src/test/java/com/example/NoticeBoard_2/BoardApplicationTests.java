@@ -13,6 +13,7 @@ import com.example.NoticeBoard_2.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -60,6 +61,23 @@ class BoardApplicationTests {
 
 		List<Board> memberBoards = boardRepository.findAllByMember(member);
 		Assertions.assertTrue(memberBoards.isEmpty());
+	}
+
+	@Test
+	public void testTotalMemberCount(){
+		Member member = new Member("1234","1234","gyugyu1", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
+		Member member1 = new Member("aaa","1234","aa", MemberRole.REGULAR, LocalDateTime.now(),0);
+		Member member2 = new Member("bbb","1234","bb", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
+		Member member3 = new Member("ccc","1234","ccc", MemberRole.VIP, LocalDateTime.now(),0);
+		Member member4 = new Member("ddd","1234","dd", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
+		Member member5 = new Member("eee","1234","eeeee", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
+		em.persist(member);em.persist(member1);    em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
+		em.flush(); em.clear();
+		List<Object[]> memberCntLists = memberRepository.countMemberByMemberRole();
+		for (Object[] index : memberCntLists){
+//			logger.info(String.valueOf((MemberRole)index[0]));
+//			logger.info(String.valueOf((Long)index[1]));
+		}
 	}
 
 }
