@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 public class BoardResponseListDto {
 
@@ -20,6 +19,7 @@ public class BoardResponseListDto {
     private String createDate; // 글 작성 일
     private String writerName; // 글쓴이
 
+    @Builder
     public BoardResponseListDto(String title, String content, int recommendCnt, String createDate, String writerName) {
         this.title = title;
         this.content = content;
@@ -35,7 +35,7 @@ public class BoardResponseListDto {
                 .content(board.getBody())
                 .recommendCnt(board.getRecommendCnt())
                 .createDate(board.getCreatedDate())
-                .writerName(board.getMember().getUsername())
+                .writerName(board.getMember().getNickname())
                 .build();
 
     }

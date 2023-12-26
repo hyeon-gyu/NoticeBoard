@@ -14,6 +14,12 @@ public class BoardWriteDto {
     private String content;
 
     @Builder
+    public BoardWriteDto(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+
     public static Board ofEntity(BoardWriteDto boardWriteDto){
         return Board.builder()
                 .title(boardWriteDto.title)

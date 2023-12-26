@@ -59,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             || requestURI.contains("/user/checkId")
             || requestURI.contains("/user/signup")
             || requestURI.contains(("login"))
+            || requestURI.contains("/board/search")
         ){
             filterChain.doFilter(request,response);
             return;

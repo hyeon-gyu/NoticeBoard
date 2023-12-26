@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.controller;
 
 import com.example.NoticeBoard_2.domain.dto.request.BoardWriteDto;
+import com.example.NoticeBoard_2.domain.dto.request.SearchData;
 import com.example.NoticeBoard_2.domain.dto.response.BoardResponseListDto;
 import com.example.NoticeBoard_2.domain.dto.response.BoardResponseWriteDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
@@ -43,4 +44,14 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardList);
     }
 
+    /** 제목, 글쓴이, 본문 키워드로 검색*/
+    @GetMapping("/search")
+    public ResponseEntity<List<BoardResponseListDto>> search(
+            @RequestParam(required = false, name = "title") String title, // 해당 파라미터가 필수가 아니어도 괜찮음
+            @RequestParam(required = false, name = "writer") String writer,
+            @RequestParam(required = false, name = "body") String body) {
+        SearchData searchData = SearchData.createSearchData(title, writer, body);
+        List<BoardResponseListDto> searchDto = boardService.search(searchData);
+        return ResponseEntity.status(HttpStatus.OK).body(searchDto);
+    }
 }
