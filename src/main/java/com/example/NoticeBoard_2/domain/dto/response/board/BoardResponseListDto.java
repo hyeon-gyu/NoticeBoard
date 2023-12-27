@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.response;
+package com.example.NoticeBoard_2.domain.dto.response.board;
 
 
 import com.example.NoticeBoard_2.domain.entity.Board;
@@ -16,14 +16,16 @@ public class BoardResponseListDto {
     private String title;
     private String content;
     private int recommendCnt; //추천 수 카운트 현황
+    private int commentCnt;
     private String createDate; // 글 작성 일
     private String writerName; // 글쓴이
 
     @Builder
-    public BoardResponseListDto(String title, String content, int recommendCnt, String createDate, String writerName) {
+    public BoardResponseListDto(String title, String content, int recommendCnt, int commentCnt, String createDate, String writerName) {
         this.title = title;
         this.content = content;
         this.recommendCnt = recommendCnt;
+        this.commentCnt = commentCnt;
         this.createDate = createDate;
         this.writerName = writerName;
     }
@@ -32,8 +34,9 @@ public class BoardResponseListDto {
     public static BoardResponseListDto fromEntity(Board board){
         return BoardResponseListDto.builder()
                 .title(board.getTitle())
-                .content(board.getBody())
+                .content(board.getContent())
                 .recommendCnt(board.getRecommendCnt())
+                .commentCnt(board.getCommentCnt())
                 .createDate(board.getCreatedDate())
                 .writerName(board.getMember().getNickname())
                 .build();

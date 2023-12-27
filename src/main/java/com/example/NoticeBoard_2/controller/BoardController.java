@@ -1,9 +1,10 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.domain.dto.request.BoardWriteDto;
-import com.example.NoticeBoard_2.domain.dto.request.SearchData;
-import com.example.NoticeBoard_2.domain.dto.response.BoardResponseListDto;
-import com.example.NoticeBoard_2.domain.dto.response.BoardResponseWriteDto;
+import com.example.NoticeBoard_2.domain.dto.request.board.BoardWriteDto;
+import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseListDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseWriteDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.service.BoardService;
@@ -49,9 +50,18 @@ public class BoardController {
     public ResponseEntity<List<BoardResponseListDto>> search(
             @RequestParam(required = false, name = "title") String title, // 해당 파라미터가 필수가 아니어도 괜찮음
             @RequestParam(required = false, name = "writer") String writer,
-            @RequestParam(required = false, name = "body") String body) {
+            @RequestParam(required = false, name = "content") String body) {
         SearchData searchData = SearchData.createSearchData(title, writer, body);
         List<BoardResponseListDto> searchDto = boardService.search(searchData);
         return ResponseEntity.status(HttpStatus.OK).body(searchDto);
     }
+
+    /** 게시글 하나를 클릭할 때 (리턴 값으로 게시글 상세 정보 줘야함)*/
+    @GetMapping("/detail/{boardId}")
+    public ResponseEntity<BoardResponseDetailDto> detail(
+            @PathVariable("boardId") Long boardId){
+        BoardResponseDetailDto findBoardDto = boardService.detail(boardId);
+        return ResponseEntity.status(HttpStatus.OK).body(findBoardDto);
+    }
+
 }

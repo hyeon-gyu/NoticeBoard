@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.response;
+package com.example.NoticeBoard_2.domain.dto.response.member;
 
 
 import lombok.Builder;

@@ -2,10 +2,11 @@ package com.example.NoticeBoard_2.service;
 
 
 import com.example.NoticeBoard_2.common.ResourceNotFoundException;
-import com.example.NoticeBoard_2.domain.dto.request.BoardWriteDto;
-import com.example.NoticeBoard_2.domain.dto.request.SearchData;
-import com.example.NoticeBoard_2.domain.dto.response.BoardResponseListDto;
-import com.example.NoticeBoard_2.domain.dto.response.BoardResponseWriteDto;
+import com.example.NoticeBoard_2.domain.dto.request.board.BoardWriteDto;
+import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseListDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseWriteDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +37,8 @@ public class BoardService {
         Member writeMember = memberRepository.findByLoginId(member.getLoginId()).orElseThrow(
                 () -> new ResourceNotFoundException("Member", "Member LoginId", member.getLoginId()));
 
-        if (category.equalsIgnoreCase("greeting")){member.rankUp(MemberRole.REGULAR);} //준회원 + 가입인사 게시판 글쓰기 => 등업
+        if (category.equalsIgnoreCase("greeting") && member.getMemberRole() == MemberRole.ASSOCIATE){
+            member.rankUp(MemberRole.REGULAR);} //준회원 + 가입인사 게시판 글쓰기 => 등업
         board.setMappingMember(writeMember); // 양방향 연관관계 적용
         Board saveBoard = boardRepository.save(board);
         return BoardResponseWriteDto.fromEntity(saveBoard, writeMember.getNickname());
@@ -56,9 +59,16 @@ public class BoardService {
         else if(searchData.getWriter() != null){
             boardList = boardRepository.findAllWriterContaining(searchData.getWriter());
         }
-        else if(searchData.getBody() != null){
-            boardList = boardRepository.findAllBodyContaining(searchData.getBody());
+        else if(searchData.getContent() != null){
+            boardList = boardRepository.findAllBodyContaining(searchData.getContent());
         }
         return boardList.stream().map(BoardResponseListDto::fromEntity).collect(Collectors.toList());
+    }
+
+    // 게시글 상세보기 ( 게시글 하나 클릭했을 때)
+    public BoardResponseDetailDto detail(Long boardId){
+        Board findBoard = boardRepository.findByBoardId(boardId).orElseThrow(
+                () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId)));
+        return BoardResponseDetailDto.fromEntity(findBoard);
     }
 }

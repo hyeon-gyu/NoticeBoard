@@ -1,11 +1,10 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseCntDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
+import com.example.NoticeBoard_2.domain.dto.request.member.MemberSignupDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberResponseCntDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberResponseDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.service.MemberService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;

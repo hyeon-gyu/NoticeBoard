@@ -27,14 +27,13 @@ public class Member extends TimeEntity implements UserDetails {
 
     @Column(nullable = false)
     private String loginId; // 로그인할 때 사용할 아이디 정보
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false)
     private String nickname;
 
-//    @CreatedDate
-//    @Column(name = "SIGNUP_DATE", updatable = false) //변경불가
-//    private LocalDateTime signUpAt; // 회원가입 날짜
     @Column(nullable = false)
     private Integer recommendCnt; // 총 추천받은 수
 
@@ -87,6 +86,7 @@ public class Member extends TimeEntity implements UserDetails {
     public void rankUp(MemberRole memberRole){
         this.memberRole = memberRole;
     }
+
 
     //========== UserDetails implements ==========//
     /**

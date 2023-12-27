@@ -1,8 +1,7 @@
 package com.example.NoticeBoard_2.controller;
 
-import com.example.NoticeBoard_2.domain.dto.request.MemberLoginDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberTokenDto;
+import com.example.NoticeBoard_2.domain.dto.request.member.MemberLoginDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberTokenDto;
 import com.example.NoticeBoard_2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

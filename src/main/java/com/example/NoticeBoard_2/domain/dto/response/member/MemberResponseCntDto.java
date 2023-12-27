@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.response;
+package com.example.NoticeBoard_2.domain.dto.response.member;
 
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import lombok.Builder;
@@ -31,6 +31,5 @@ public class MemberResponseCntDto {
                     .build());
         }
         return memberCntDto;
-
     }
 }

@@ -4,7 +4,6 @@ package com.example.NoticeBoard_2.domain.entity;
 import com.example.NoticeBoard_2.common.TimeEntity;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,20 +27,20 @@ public class Board extends TimeEntity {
     @Column(nullable = false)
     private String title;
 
-    private String body;
+    private String content;
 
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory; // 가입인사 게시판, 자유게시판, 관리자용 게시판(공지사항)
 
     //추천 수
-    private Integer recommendCnt;
+    private int recommendCnt;
     //댓글 수
-    private Integer commentCnt;
+    private int commentCnt;
 
     @Builder
-    public Board(String title, String body, BoardCategory boardCategory, Member member, Integer recommendCnt, Integer commentCnt){
+    public Board(String title, String content, BoardCategory boardCategory, Member member, int recommendCnt, int commentCnt){
         this.title = title;
-        this.body = body;
+        this.content = content;
         this.boardCategory = boardCategory;
         this.member = member;
         this.recommendCnt = 0;

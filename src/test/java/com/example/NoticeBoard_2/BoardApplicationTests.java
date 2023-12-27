@@ -1,8 +1,9 @@
 package com.example.NoticeBoard_2;
 
 
-import com.example.NoticeBoard_2.domain.dto.request.SearchData;
-import com.example.NoticeBoard_2.domain.dto.response.BoardResponseListDto;
+import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseListDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
@@ -103,6 +104,15 @@ class BoardApplicationTests {
 		for(BoardResponseListDto index: search1){
 			logger.info(index.getWriterName());
 		}
+	}
+
+
+	@Test //게시글 상세보기
+	public void testDetail(){
+		BoardResponseDetailDto detail = boardService.detail(2L);
+		logger.info(detail.getTitle() + detail.getContent() + detail.getCreatedDate() + detail.getCommentCnt());
+
+
 	}
 
 }

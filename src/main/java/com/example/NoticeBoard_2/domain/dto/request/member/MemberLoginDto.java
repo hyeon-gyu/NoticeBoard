@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.request;
+package com.example.NoticeBoard_2.domain.dto.request.member;
 
 import lombok.Builder;
 import lombok.Data;

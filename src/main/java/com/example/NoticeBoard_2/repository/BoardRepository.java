@@ -1,6 +1,5 @@
 package com.example.NoticeBoard_2.repository;
 
-import com.example.NoticeBoard_2.domain.dto.request.SearchData;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
@@ -18,6 +17,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByBoardCategory(BoardCategory category);
     List<Board> findAllByMember(Member member);
 
+    // boardId로 검색 : 게시글 상세보기
+    @Query(value = "SELECT b FROM Board b JOIN FETCH b.member WHERE b.id = :boardId")
+    Optional<Board> findByBoardId(@Param("boardId") Long boardId);
 
     @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.title LIKE %:title%")
     List<Board> findAllTitleContaining(@Param("title")String title);
@@ -25,6 +27,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.member.nickname LIKE %:writer%")
     List<Board> findAllWriterContaining(@Param("writer")String writer);
 
-    @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.body LIKE %:content%")
+    @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.content LIKE %:content%")
     List<Board> findAllBodyContaining(@Param("content") String content);
 }

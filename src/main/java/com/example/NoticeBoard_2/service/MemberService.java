@@ -2,11 +2,12 @@ package com.example.NoticeBoard_2.service;
 
 import com.example.NoticeBoard_2.common.MemberException;
 import com.example.NoticeBoard_2.common.ResourceNotFoundException;
-import com.example.NoticeBoard_2.domain.dto.request.MemberLoginDto;
-import com.example.NoticeBoard_2.domain.dto.request.MemberSignupDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseCntDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberResponseDto;
-import com.example.NoticeBoard_2.domain.dto.response.MemberTokenDto;
+import com.example.NoticeBoard_2.domain.dto.request.member.MemberLoginDto;
+import com.example.NoticeBoard_2.domain.dto.request.member.MemberSignupDto;
+import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberResponseCntDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberResponseDto;
+import com.example.NoticeBoard_2.domain.dto.response.member.MemberTokenDto;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.MemberRepository;
@@ -20,7 +21,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -126,10 +125,11 @@ public class MemberService {
                 countMap.put(role,0L);
             }
         }
-
         for (Object[] index : memberCntLists) {
             countMap.put((MemberRole)index[0], (Long)index[1]);
         }
         return MemberResponseCntDto.fromEntity(countMap);
     }
+
+
 }

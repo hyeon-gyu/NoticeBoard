@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.response;
+package com.example.NoticeBoard_2.domain.dto.response.board;
 
 
 import com.example.NoticeBoard_2.domain.entity.Board;
@@ -30,7 +30,7 @@ public class BoardResponseWriteDto {
         return BoardResponseWriteDto.builder()
                 .boardId(board.getId())
                 .title(board.getTitle())
-                .content(board.getBody())
+                .content(board.getContent())
                 .writerName(writerName)
                 .createdDate(board.getCreatedDate())
                 .build();

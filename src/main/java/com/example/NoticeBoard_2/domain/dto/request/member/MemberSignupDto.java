@@ -1,4 +1,4 @@
-package com.example.NoticeBoard_2.domain.dto.request;
+package com.example.NoticeBoard_2.domain.dto.request.member;
 
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
