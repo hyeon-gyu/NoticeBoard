@@ -1,5 +1,7 @@
 package com.example.NoticeBoard_2.controller;
 
+import com.example.NoticeBoard_2.common.AlreadyExistsException;
+import com.example.NoticeBoard_2.common.ResourceNotFoundException;
 import com.example.NoticeBoard_2.domain.dto.request.board.BoardWriteDto;
 import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
 import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scripting.support.RefreshableScriptTargetSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +67,7 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(findBoardDto);
     }
 
+    /** 게시글 수정하기 */
     @PostMapping("/edit/{boardId}")
     public ResponseEntity<BoardResponseDetailDto> edit(
             @AuthenticationPrincipal Member member,
@@ -72,4 +76,20 @@ public class BoardController {
         BoardResponseDetailDto editBoard = boardService.edit(member, boardId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(editBoard);
     }
+
+    @GetMapping("/recommend/{boardId}")
+    // 게시물에는 한 번만 추천을 누를 수 있음. // undo 작업까지 진행할 예정
+    public ResponseEntity<?> recommend(
+            @AuthenticationPrincipal Member member,
+            @PathVariable("boardId")Long boardId){
+        try {
+            BoardResponseDetailDto recommend = boardService.recommend(member, boardId);
+            return ResponseEntity.status(HttpStatus.OK).body(recommend);
+        } catch (AlreadyExistsException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

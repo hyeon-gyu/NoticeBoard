@@ -11,11 +11,13 @@ import com.example.NoticeBoard_2.domain.dto.response.comment.CommentResponseDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Comment;
 import com.example.NoticeBoard_2.domain.entity.Member;
+import com.example.NoticeBoard_2.domain.entity.Recommend;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.BoardRepository;
 import com.example.NoticeBoard_2.repository.CommentRepository;
 import com.example.NoticeBoard_2.repository.MemberRepository;
+import com.example.NoticeBoard_2.repository.RecommendRepository;
 import com.example.NoticeBoard_2.service.BoardService;
 import com.example.NoticeBoard_2.service.CommentService;
 import com.example.NoticeBoard_2.service.MemberService;
@@ -57,6 +59,9 @@ class BoardApplicationTests {
 
 	@Autowired
 	private CommentRepository commentRepository;
+
+	@Autowired
+	private RecommendRepository recommendRepository;
 
 	private static final Logger logger = LogManager.getLogger(BoardApplication.class);
 
@@ -143,5 +148,22 @@ class BoardApplicationTests {
 		BoardWriteDto boardWriteDto = new BoardWriteDto("수정제목","수정내용");
 		BoardResponseDetailDto edit = boardService.edit(findMember, 5L, boardWriteDto);
 		logger.info(edit.getTitle() + edit.getContent());
+	}
+
+	@Test
+	@Transactional
+	public void recommendTest(){ //게시글 추천하기 테스트
+		Member member = memberRepository.findByLoginId("1223").orElseThrow(
+				() -> new ResourceNotFoundException("Member", "Member loginId", String.valueOf(1223))
+		);
+		Board board = boardRepository.findByBoardId(5L).orElseThrow(
+				() -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(5L))
+		);
+
+
+		boardService.recommend(member,board.getId());
+		Optional<Recommend> byMemberAndBoard = recommendRepository.findByMemberAndBoard(member, board);
+		logger.info(byMemberAndBoard.get().getMember().getNickname());
+
 	}
 }

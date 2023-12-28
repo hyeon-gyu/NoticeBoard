@@ -10,9 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 public class Recommend extends TimeEntity {
 
@@ -34,6 +32,12 @@ public class Recommend extends TimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
+
+    @Builder
+    public Recommend(Board board, Member member) {
+        this.board = board;
+        this.member = member;
+    }
 
 }
 

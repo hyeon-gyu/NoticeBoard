@@ -82,9 +82,12 @@ public class Board extends TimeEntity {
 
     public void addComment(){this.commentCnt += 1;} // 댓글수 1 증가
 
-    public void update(String title, String content){
+    public void update(String title, String content){ // 게시글 수정
         this.title = title;
         this.content = content;
     }
+
+    public void plusRecommend(){this.recommendCnt += 1;}
+
 }
 

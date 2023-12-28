@@ -1,6 +1,7 @@
 package com.example.NoticeBoard_2.service;
 
 
+import com.example.NoticeBoard_2.common.AlreadyExistsException;
 import com.example.NoticeBoard_2.common.ResourceNotFoundException;
 import com.example.NoticeBoard_2.domain.dto.request.board.BoardWriteDto;
 import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
@@ -9,10 +10,13 @@ import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseListDto;
 import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseWriteDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
 import com.example.NoticeBoard_2.domain.entity.Member;
+import com.example.NoticeBoard_2.domain.entity.Recommend;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.BoardRepository;
+import com.example.NoticeBoard_2.repository.CommentRepository;
 import com.example.NoticeBoard_2.repository.MemberRepository;
+import com.example.NoticeBoard_2.repository.RecommendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,8 @@ public class BoardService {
 
     private final MemberRepository memberRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
+    private final RecommendRepository recommendRepository;
 
     // 게시글 작성하는 서비스 로직
     public BoardResponseWriteDto write(String category, BoardWriteDto boardWriteDto, Member member){
@@ -78,12 +84,26 @@ public class BoardService {
 
         Board board = boardRepository.findByBoardId(boardId).orElseThrow(
                 () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId)));
+        //어찌 처리할꼬? 글쓴이와 동일하지 않으면 수정이 안되는걸루 그냥 가자!
         if(Objects.equals(board.getMember().getLoginId(), member.getLoginId())){ // 게시글 작성자와 member가 동일인이여야 수정 진행
             board.update(dto.getTitle(), dto.getContent());
-            return BoardResponseDetailDto.fromEntity(board);
         }
-        else {
-            return BoardResponseDetailDto.fromEntity(board); //어찌 처리할꼬? 글쓴이와 동일하지 않으면 수정이 안되는걸루 그냥 가자!
-        }
+        return BoardResponseDetailDto.fromEntity(board);
+    }
+
+    // 게시글 추천 누르기
+    public BoardResponseDetailDto recommend(Member member, Long boardId){
+        // 추천 누른 게시글 가져오기 -> 게시글 추천 +1 -> 누가 눌렀는지 정보 가져오고 -> recommend 테이블에 기입
+        Board findBoard = boardRepository.findByBoardId(boardId).orElseThrow(
+                () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId))
+        );
+        recommendRepository.findByMemberAndBoard(member, findBoard).ifPresent(
+                recommend -> {throw new AlreadyExistsException(member.getId());}
+        );
+
+        Recommend recommend = new Recommend(findBoard,member);
+        recommendRepository.save(recommend);
+        findBoard.plusRecommend();
+        return BoardResponseDetailDto.fromEntity(findBoard);
     }
 }
