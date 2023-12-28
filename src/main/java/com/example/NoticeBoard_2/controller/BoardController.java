@@ -64,4 +64,12 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(findBoardDto);
     }
 
+    @PostMapping("/edit/{boardId}")
+    public ResponseEntity<BoardResponseDetailDto> edit(
+            @AuthenticationPrincipal Member member,
+            @PathVariable("boardId")Long boardId,
+            @RequestBody BoardWriteDto dto){
+        BoardResponseDetailDto editBoard = boardService.edit(member, boardId, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(editBoard);
+    }
 }

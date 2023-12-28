@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authToken = null;
 
         String requestURI = request.getRequestURI();
-        if (requestURI.contains("/user/checkNickname")
+        if (requestURI.contains("/user/checkNickname") // 사용자 인가 없이 허용되는 url모음
             || requestURI.contains("/user/checkId")
             || requestURI.contains("/user/signup")
             || requestURI.contains(("login"))

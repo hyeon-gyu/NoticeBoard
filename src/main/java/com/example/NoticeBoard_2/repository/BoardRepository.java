@@ -17,6 +17,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByBoardCategory(BoardCategory category);
     List<Board> findAllByMember(Member member);
 
+
     // boardId로 검색 : 게시글 상세보기
     @Query(value = "SELECT b FROM Board b JOIN FETCH b.member WHERE b.id = :boardId")
     Optional<Board> findByBoardId(@Param("boardId") Long boardId);
@@ -29,4 +30,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.content LIKE %:content%")
     List<Board> findAllBodyContaining(@Param("content") String content);
+
+    @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.title = :title")
+    List<Board> findByTitle(@Param("title")String title);
 }

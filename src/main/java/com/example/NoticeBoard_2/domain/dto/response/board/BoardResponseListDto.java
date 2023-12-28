@@ -12,7 +12,7 @@ public class BoardResponseListDto {
 
 
     /** 카테고리별 게시글 목록 확인 */
-
+    private Long boardId;
     private String title;
     private String content;
     private int recommendCnt; //추천 수 카운트 현황
@@ -21,7 +21,8 @@ public class BoardResponseListDto {
     private String writerName; // 글쓴이
 
     @Builder
-    public BoardResponseListDto(String title, String content, int recommendCnt, int commentCnt, String createDate, String writerName) {
+    public BoardResponseListDto(Long boardId,String title, String content, int recommendCnt, int commentCnt, String createDate, String writerName) {
+        this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.recommendCnt = recommendCnt;
@@ -33,6 +34,7 @@ public class BoardResponseListDto {
     // db에서 board list를 가져오면 map함수로 entity -> dto로 변환작업 진행
     public static BoardResponseListDto fromEntity(Board board){
         return BoardResponseListDto.builder()
+                .boardId(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .recommendCnt(board.getRecommendCnt())

@@ -78,7 +78,7 @@ public class Member extends TimeEntity implements UserDetails {
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //회원정보 가져오기에서 작성한 댓글 전부 확인하기
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> commentList = new ArrayList<>();
     //추천 (일대다)
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //회원정보 가져오기에서 추천 누른 게시글 전부 확인하기
     private List<Recommend> recommend;

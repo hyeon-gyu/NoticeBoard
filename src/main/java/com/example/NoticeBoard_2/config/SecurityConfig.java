@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 "/board/detail/{boardId}",
                                 "/user/count"
                                 ).permitAll()
-                        .requestMatchers("/board/**", "/user/withdraw").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
+                        .requestMatchers("/board/**", "/user/withdraw", "/board/{boardId}/comment").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(excep -> excep.authenticationEntryPoint(jwtAuthenticationEntryPoint))

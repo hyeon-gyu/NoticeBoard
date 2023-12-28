@@ -10,11 +10,16 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 public class Comment extends TimeEntity {
+
+    @Builder
+    public Comment(String content, Member member, Board board) {
+        this.content = content;
+        this.member = member;
+        this.board = board;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +50,15 @@ public class Comment extends TimeEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
+    //다대일 관계 설정(board : comment = 1 : N)
+    public void setBoard(Board board){
+        this.board = board;
+        board.getCommentList().add(this);
+    }
+    //다대일 관계 설정(member : comment = 1: N)
+    public void setMember(Member member){
+        this.member = member;
+        member.getCommentList().add(this);
+    }
 
 }

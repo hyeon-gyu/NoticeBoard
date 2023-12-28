@@ -80,5 +80,11 @@ public class Board extends TimeEntity {
         this.boardCategory = BoardCategory.of(category);
     }
 
+    public void addComment(){this.commentCnt += 1;} // 댓글수 1 증가
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }
 

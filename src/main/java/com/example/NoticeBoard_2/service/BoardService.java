@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -70,5 +71,19 @@ public class BoardService {
         Board findBoard = boardRepository.findByBoardId(boardId).orElseThrow(
                 () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId)));
         return BoardResponseDetailDto.fromEntity(findBoard);
+    }
+
+    // 게시글 수정하기
+    public BoardResponseDetailDto edit(Member member, Long boardId, BoardWriteDto dto) {
+
+        Board board = boardRepository.findByBoardId(boardId).orElseThrow(
+                () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId)));
+        if(Objects.equals(board.getMember().getLoginId(), member.getLoginId())){ // 게시글 작성자와 member가 동일인이여야 수정 진행
+            board.update(dto.getTitle(), dto.getContent());
+            return BoardResponseDetailDto.fromEntity(board);
+        }
+        else {
+            return BoardResponseDetailDto.fromEntity(board); //어찌 처리할꼬? 글쓴이와 동일하지 않으면 수정이 안되는걸루 그냥 가자!
+        }
     }
 }

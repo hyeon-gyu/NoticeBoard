@@ -1,16 +1,23 @@
 package com.example.NoticeBoard_2;
 
 
+import com.example.NoticeBoard_2.common.ResourceNotFoundException;
+import com.example.NoticeBoard_2.domain.dto.request.board.BoardWriteDto;
 import com.example.NoticeBoard_2.domain.dto.request.board.SearchData;
+import com.example.NoticeBoard_2.domain.dto.request.comment.CommentRequestDto;
 import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseDetailDto;
 import com.example.NoticeBoard_2.domain.dto.response.board.BoardResponseListDto;
+import com.example.NoticeBoard_2.domain.dto.response.comment.CommentResponseDto;
 import com.example.NoticeBoard_2.domain.entity.Board;
+import com.example.NoticeBoard_2.domain.entity.Comment;
 import com.example.NoticeBoard_2.domain.entity.Member;
 import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.domain.enum_class.MemberRole;
 import com.example.NoticeBoard_2.repository.BoardRepository;
+import com.example.NoticeBoard_2.repository.CommentRepository;
 import com.example.NoticeBoard_2.repository.MemberRepository;
 import com.example.NoticeBoard_2.service.BoardService;
+import com.example.NoticeBoard_2.service.CommentService;
 import com.example.NoticeBoard_2.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.apache.logging.log4j.LogManager;
@@ -44,6 +51,12 @@ class BoardApplicationTests {
 	private BoardRepository boardRepository;
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private CommentService commentService;
+
+	@Autowired
+	private CommentRepository commentRepository;
 
 	private static final Logger logger = LogManager.getLogger(BoardApplication.class);
 
@@ -111,8 +124,24 @@ class BoardApplicationTests {
 	public void testDetail(){
 		BoardResponseDetailDto detail = boardService.detail(2L);
 		logger.info(detail.getTitle() + detail.getContent() + detail.getCreatedDate() + detail.getCommentCnt());
-
-
 	}
 
+	@Test
+	@Transactional
+	public void editTest(){ //게시글 수정 테스트
+		Member member = new Member("1234","1234","gyugyu", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
+		em.persist(member); em.flush();
+		Member findMember = memberRepository.findByLoginId("1234").orElseThrow(
+				() -> new ResourceNotFoundException("Member", "Member loginId", String.valueOf(1234))
+		);
+		Board board = new Board("hello","i am person1", BoardCategory.GREETING, findMember, 0,0);
+		em.persist(board); em.flush();
+
+		Board findBoard = boardRepository.findByBoardId(5L).orElseThrow(
+				() -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(5L))
+		);
+		BoardWriteDto boardWriteDto = new BoardWriteDto("수정제목","수정내용");
+		BoardResponseDetailDto edit = boardService.edit(findMember, 5L, boardWriteDto);
+		logger.info(edit.getTitle() + edit.getContent());
+	}
 }
