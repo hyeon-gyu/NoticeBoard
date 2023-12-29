@@ -92,4 +92,12 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/recommend/undo/{boardId}")
+    public ResponseEntity<?> recommend_undo(
+            @AuthenticationPrincipal Member member,
+            @PathVariable("boardId") Long boardId){
+        BoardResponseDetailDto boardResponseDetailDto = boardService.recommend_undo(member, boardId);
+        return ResponseEntity.status(HttpStatus.OK).body(boardResponseDetailDto);
+    }
+
 }

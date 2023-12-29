@@ -106,4 +106,17 @@ public class BoardService {
         findBoard.plusRecommend();
         return BoardResponseDetailDto.fromEntity(findBoard);
     }
+
+    // 게시글 추천 취소
+    public BoardResponseDetailDto recommend_undo(Member member,Long boardId){
+        // 게시글 가져오기 -> 추천 누른 사람 중에 member가 있는지 확인 -> 있다면 1 감소, 없으면 그냥 리턴
+        Board findBoard = boardRepository.findByBoardId(boardId).orElseThrow(
+                () -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(boardId))
+        );
+        Optional<Recommend> findRecommend = recommendRepository.findByMemberAndBoard(member, findBoard);
+        if(findRecommend.isPresent()){
+            findBoard.minusRecommend();
+        }
+        return BoardResponseDetailDto.fromEntity(findBoard);
+    }
 }

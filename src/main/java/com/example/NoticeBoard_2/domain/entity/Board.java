@@ -88,6 +88,6 @@ public class Board extends TimeEntity {
     }
 
     public void plusRecommend(){this.recommendCnt += 1;}
-
+    public void minusRecommend(){this.recommendCnt -= 1;}
 }
 

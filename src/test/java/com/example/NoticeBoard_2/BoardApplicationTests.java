@@ -162,8 +162,33 @@ class BoardApplicationTests {
 
 
 		boardService.recommend(member,board.getId());
-		Optional<Recommend> byMemberAndBoard = recommendRepository.findByMemberAndBoard(member, board);
-		logger.info(byMemberAndBoard.get().getMember().getNickname());
+		em.flush(); em.clear();
 
+		Board board1 = boardRepository.findByBoardId(5L).orElseThrow(
+				() -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(5L))
+		);
+		logger.info(board1.getRecommendCnt());
+	}
+
+	@Test
+	public void recommendUndoTest(){
+		Member member = memberRepository.findByLoginId("1228").orElseThrow(
+				() -> new ResourceNotFoundException("Member", "Member loginId", String.valueOf(1228))
+		);
+		Board board = boardRepository.findByBoardId(3L).orElseThrow(
+				() -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(3L))
+		);
+		logger.info("현재 추천 수 :"+board.getRecommendCnt());
+		boardService.recommend(member,3L);
+		em.flush(); em.clear();
+		Board board1 = boardRepository.findByBoardId(5L).orElseThrow(
+				() -> new ResourceNotFoundException("Board", "Board Id", String.valueOf(5L))
+		);
+		logger.info("현재 추천 수 :"+board1.getRecommendCnt());
+		//현재 db에 1228 아이디 회원이 3번 보드에 추천 누른 상황
+		boardService.recommend_undo(member,5L);
+
+		em.flush(); em.clear();
+		logger.info("현재 추천 수 :"+board1.getRecommendCnt());
 	}
 }
