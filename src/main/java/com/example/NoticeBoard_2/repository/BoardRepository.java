@@ -33,4 +33,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("SELECT b FROM Board b JOIN FETCH b.member WHERE b.title = :title")
     List<Board> findByTitle(@Param("title")String title);
+
+
+    @Query("SELECT b FROM Board b ORDER BY b.commentCnt DESC, b.modifiedDate")
+    List<Board> findAllOrderByCommentCnt();
+
+    @Query("SELECT b FROM Board b ORDER BY b.recommendCnt DESC, b.modifiedDate")
+    List<Board> findAllOrderByRecommendCnt();
 }

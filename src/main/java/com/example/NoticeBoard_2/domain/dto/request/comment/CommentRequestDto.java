@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentRequestDto {
 
-
-
-    // security가 누가 작성했는지 username으로 memberId 선별과정 진행 -> content만 있으면 될듯
+    // security가 누가 작성했는지 username으로 memberId 선별과정 진행
     private String content;
 
     @Builder

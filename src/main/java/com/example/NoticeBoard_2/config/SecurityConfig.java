@@ -47,7 +47,8 @@ public class SecurityConfig {
                                 "/board/list",
                                 "/board/search",
                                 "/board/detail/{boardId}",
-                                "/user/count"
+                                "/user/count",
+                                "/board/sort/{type}"
                                 ).permitAll()
                         .requestMatchers("/board/**", "/user/withdraw", "/board/{boardId}/comment").hasAnyRole("ASSOCIATE", "REGULAR", "VIP", "ADMIN"))
 

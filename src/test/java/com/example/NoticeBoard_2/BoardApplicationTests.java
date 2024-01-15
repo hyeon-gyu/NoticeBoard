@@ -191,4 +191,13 @@ class BoardApplicationTests {
 		em.flush(); em.clear();
 		logger.info("현재 추천 수 :"+board1.getRecommendCnt());
 	}
+
+	@Test
+	@Transactional
+	public void sortTest(){
+		List<BoardResponseListDto> res = boardService.sorting("commentCnt");
+		for(BoardResponseListDto index: res){
+			logger.info(index.getContent());
+		}
+	}
 }

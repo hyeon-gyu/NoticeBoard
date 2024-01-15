@@ -15,15 +15,14 @@ public class HomeController {
 
     private final MemberService memberService;
 
-    /** 로그인 절차 */
+    /**
+     * 로그인 절차
+     */
     @PostMapping("/login")
-    public ResponseEntity<MemberTokenDto> login(@RequestBody MemberLoginDto memberLoginDto){
+    public ResponseEntity<MemberTokenDto> login(@RequestBody MemberLoginDto memberLoginDto) {
         MemberTokenDto memberTokenDto = memberService.login(memberLoginDto);
         return ResponseEntity.status(HttpStatus.OK).header(memberTokenDto.getToken()).body(memberTokenDto);
     }
-
-
-
 
 
 }

@@ -18,13 +18,15 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    /** 댓글 작성하기 */
+    /**
+     * 댓글 작성하기
+     */
     @PostMapping("/write")
     public ResponseEntity<CommentResponseDto> write(
             @AuthenticationPrincipal Member member,
             @RequestBody CommentRequestDto commentDto,
             @PathVariable("boardId") Long boardId
-            ){
+    ) {
 
         CommentResponseDto commentResponseDto = commentService.write(member, commentDto, boardId);
         return ResponseEntity.status(HttpStatus.OK).body(commentResponseDto);
