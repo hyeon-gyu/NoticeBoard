@@ -25,14 +25,19 @@ import jakarta.persistence.EntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 
 @SpringBootTest
@@ -133,7 +138,8 @@ class BoardApplicationTests {
 
 	@Test
 	@Transactional
-	public void editTest(){ //게시글 수정 테스트
+	@DisplayName("게시글 수정 테스트")
+	public void editTest(){
 		Member member = new Member("1234","1234","gyugyu", MemberRole.ASSOCIATE, LocalDateTime.now(),0);
 		em.persist(member); em.flush();
 		Member findMember = memberRepository.findByLoginId("1234").orElseThrow(
@@ -151,7 +157,7 @@ class BoardApplicationTests {
 	}
 
 	@Test
-	@Transactional
+	@DisplayName("게시글 추천하기 테스트")
 	public void recommendTest(){ //게시글 추천하기 테스트
 		Member member = memberRepository.findByLoginId("1223").orElseThrow(
 				() -> new ResourceNotFoundException("Member", "Member loginId", String.valueOf(1223))
@@ -193,11 +199,19 @@ class BoardApplicationTests {
 	}
 
 	@Test
-	@Transactional
+
 	public void sortTest(){
 		List<BoardResponseListDto> res = boardService.sorting("commentCnt");
 		for(BoardResponseListDto index: res){
 			logger.info(index.getContent());
 		}
+	}
+
+	@Test
+	@DisplayName("페이징처리")
+	public void pageTest(){
+		Pageable pageable = PageRequest.of(0,2);
+		Page<BoardResponseListDto> allBoards = boardService.getAllBoards(pageable);
+		logger.info(allBoards.getContent());
 	}
 }

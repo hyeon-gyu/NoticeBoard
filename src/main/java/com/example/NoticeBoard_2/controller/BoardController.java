@@ -12,9 +12,12 @@ import com.example.NoticeBoard_2.domain.enum_class.BoardCategory;
 import com.example.NoticeBoard_2.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scripting.support.RefreshableScriptTargetSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,12 +46,24 @@ public class BoardController {
     }
 
     /**
+     * 게시판 전체 목록 (홈화면)
+     */
+    @GetMapping("/list")
+    public ResponseEntity<Page<BoardResponseListDto>> boardList(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable
+            ){
+        Page<BoardResponseListDto> allBoards = boardService.getAllBoards(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(allBoards);
+    }
+
+
+    /**
      * 게시판 카테고리별로 불러오기
      */
     @GetMapping("/list/{category}")
-    public ResponseEntity<List<BoardResponseListDto>> boardList(@PathVariable("category") String category) {
+    public ResponseEntity<List<BoardResponseListDto>> boardListByCategory(@PathVariable("category") String category) {
         BoardCategory boardCategory = BoardCategory.of(category);
-        List<BoardResponseListDto> responseBoardList = boardService.boardList(boardCategory);
+        List<BoardResponseListDto> responseBoardList = boardService.boardListByCategory(boardCategory);
         return ResponseEntity.status(HttpStatus.OK).body(responseBoardList);
     }
 

@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/user/signup",
                                 "/login",
                                 "/board/list",
+                                "/board/list/{category}",
                                 "/board/search",
                                 "/board/detail/{boardId}",
                                 "/user/count",

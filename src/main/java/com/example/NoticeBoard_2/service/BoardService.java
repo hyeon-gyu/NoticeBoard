@@ -18,9 +18,13 @@ import com.example.NoticeBoard_2.repository.CommentRepository;
 import com.example.NoticeBoard_2.repository.MemberRepository;
 import com.example.NoticeBoard_2.repository.RecommendRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,8 +56,15 @@ public class BoardService {
         return BoardResponseWriteDto.fromEntity(saveBoard, writeMember.getNickname());
     }
 
+    // 전체 게시물 조회(홈화면)
+    public Page<BoardResponseListDto> getAllBoards(Pageable pageable){
+        Page<Board> boardList = boardRepository.findAll(pageable);
+        List<BoardResponseListDto> returnList = boardList.stream().map(BoardResponseListDto::fromEntity).toList();
+        return new PageImpl<>(returnList, pageable, boardList.getTotalElements());
+    }
+
     // 카테고리로 게시물 조회하는 서비스 로직
-    public List<BoardResponseListDto> boardList(BoardCategory category) {
+    public List<BoardResponseListDto> boardListByCategory(BoardCategory category) {
         List<Board> boards = boardRepository.findByBoardCategory(category);
         return boards.stream().map(BoardResponseListDto::fromEntity).toList();
     }
