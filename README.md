@@ -54,3 +54,7 @@ Springboot, JPA, MySQL
 | Lombok |  |
 | MySQL connector J |  |
 | JSON webtoken | 0.11.5 |
+
+----------------------------------
+코드 작성 과정 기록 블로그
+https://gyucode.tistory.com/38
